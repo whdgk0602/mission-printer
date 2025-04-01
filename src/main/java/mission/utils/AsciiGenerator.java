@@ -13,29 +13,33 @@ public class AsciiGenerator {
     private final List<List<String>> data;
 
     static private final List<String> fileNames = List.of(
-            "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+            "zero", "one", "two", "three", "four", "five",
+            "six", "seven", "eight", "nine"
     );
 
     public AsciiGenerator() {
         data = new ArrayList<>();
-        fileNames.forEach(fileName -> {
-            try {
-                Path path = Paths.get(Objects.requireNonNull(
-                        getClass().getClassLoader().getResource("numberAsciiDesign/" + fileName + ".txt")
-                ).toURI());
-                String content = Files.readString(path);
-                data.add(List.of(content.split("\n")));
-            } catch (URISyntaxException | IOException e) {
-                throw new IllegalStateException("[ERROR] 아스키아트를 로드하지 못했습니다.");
-            }
-        });
+        fileNames.forEach(this::loadAsciiFile);
+    }
+
+    private void loadAsciiFile(String fileName) {
+        try {
+            Path path = Paths.get(Objects.requireNonNull(
+                    getClass().getClassLoader().getResource("numberAsciiDesign/" + fileName + ".txt")
+            ).toURI());
+            String content = Files.readString(path);
+
+            List<String> lines = List.of(content.split("\\R")); // 모든 개행 문자 처리
+            data.add(lines);
+        } catch (URISyntaxException | IOException e) {
+            throw new IllegalStateException("[ERROR] 아스키 아트를 로드하지 못했습니다.");
+        }
     }
 
     public List<String> getNumberAsciiDesign(int number) {
-        try {
-            return data.get(number);
-        } catch (IndexOutOfBoundsException e) {
-            throw new IllegalStateException("[ERROR] 범위를 초과했습니다. ");
+        if (number < 0 || number >= data.size()) {
+            throw new IllegalStateException("[ERROR] 범위를 초과했습니다.");
         }
+        return data.get(number);
     }
 }
