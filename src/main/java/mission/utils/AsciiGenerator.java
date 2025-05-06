@@ -29,7 +29,7 @@ public class AsciiGenerator {
             ).toURI());
             String content = Files.readString(path);
 
-            List<String> lines = List.of(content.split("\\R")); // 모든 개행 문자 처리
+            List<String> lines = List.of(content.split("\\R"));
             data.add(lines);
         } catch (URISyntaxException | IOException e) {
             throw new IllegalStateException("[ERROR] 아스키 아트를 로드하지 못했습니다.");

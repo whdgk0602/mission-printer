@@ -14,19 +14,7 @@ public class PrinterView {
         System.out.println(message);
     }
 
-    public void displayInkStatus(int ink, int maxInk) {
-        System.out.println("잉크 잔량: " + ink + "/" + maxInk);
-    }
-
-    public void displayInkReplaced() {
-        System.out.println("잉크를 교체하였습니다.");
-    }
-
-    public void displayInkLow() {
-        System.out.println("[ERROR] 잉크가 부족합니다. 인쇄할 수 없습니다.");
-    }
-
-    public void displayAscii(String ascii) {
-        System.out.println(ascii);
+    public void displayError(String message) {
+        System.out.println("[ERROR] " + message);
     }
 }
